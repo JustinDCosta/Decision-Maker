@@ -64,6 +64,16 @@
             resetBestOf3();
         }
 
+        function changeBgColor(color) {
+            document.body.style.background = color;
+        }
+
+        function resetBgColor() {
+            const amoledDark = '#000000';
+            document.getElementById('bgColorPicker').value = amoledDark;
+            changeBgColor(amoledDark);
+        }
+
         function spinToDecide() {
             const resultDiv = document.getElementById('result');
             const lever = document.getElementById('lever');
@@ -175,4 +185,28 @@
         // Initialize best of 3 counter display on load
         window.addEventListener('DOMContentLoaded', () => {
             updateSpinCounter();
+            createCasinoLights();
         });
+        
+        function createCasinoLights() {
+            // Populate the light-container edges with bulbs
+            const lightContainers = [
+                { selector: '.lights-container.top', count: 12 },
+                { selector: '.lights-container.bottom', count: 12 },
+                { selector: '.lights-container.left', count: 8 },
+                { selector: '.lights-container.right', count: 8 }
+            ];
+            
+            lightContainers.forEach(containerData => {
+                const container = document.querySelector(containerData.selector);
+                if (container) {
+                    for (let i = 0; i < containerData.count; i++) {
+                        const bulb = document.createElement('div');
+                        bulb.className = 'casino-bulb';
+                        // Add stagger effect to animation
+                        bulb.style.animationDelay = `${(i * 0.1)}s`;
+                        container.appendChild(bulb);
+                    }
+                }
+            });
+        }

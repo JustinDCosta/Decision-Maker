@@ -29,10 +29,23 @@
                 <input type="radio" name="mode" value="3" onchange="resetBestOf3()"> Best of 3
             </label>
         </div>
+
+        <div class="controls">
+            <label class="radio-label">
+                <input type="color" id="bgColorPicker" value="#000000" onchange="changeBgColor(this.value)"> Background
+            </label>
+            <button class="btn-reset-bg" onclick="resetBgColor()">AMOLED Dark</button>
+        </div>
     </div>
 
     <div class="layout-container">
         <div class="slot-machine">
+            <!-- Chasing Casino Lights -->
+            <div class="lights-container top"></div>
+            <div class="lights-container bottom"></div>
+            <div class="lights-container left"></div>
+            <div class="lights-container right"></div>
+
             <div class="slot-window">
                 <div id="result">PULL!</div>
             </div>
