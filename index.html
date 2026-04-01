@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Decider - 3D Slot Machine</title>
+    <!-- External stylesheet for cleaner structure -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 class="casino-title">Lucky Decider</h1>
+
+    
+    <div class="mode-container">
+        <div class="controls">
+            <label class="radio-label">
+                <input type="radio" name="options" value="2" checked> 2 Options (Yes/No)
+            </label>
+            <label class="radio-label">
+                <input type="radio" name="options" value="3"> 3 Options (Yes/No/Maybe)
+            </label>
+        </div>
+        
+        <div class="controls">
+            <label class="radio-label">
+                <input type="radio" name="mode" value="1" checked onchange="resetBestOf3()"> Single Spin
+            </label>
+            <label class="radio-label">
+                <input type="radio" name="mode" value="3" onchange="resetBestOf3()"> Best of 3
+            </label>
+        </div>
+    </div>
+
+    <div class="layout-container">
+        <div class="slot-machine">
+            <div class="light-bulb l1"></div>
+            <div class="light-bulb l2"></div>
+            <div class="light-bulb l3"></div>
+            
+            <div class="slot-window">
+                <div id="result">PULL!</div>
+            </div>
+            
+            <div class="lever-container" id="lever" onclick="spinToDecide()">
+                <div class="lever-base"></div>
+                <div class="lever-stick-wrapper">
+                    <div class="lever-stick">
+                        <div class="lever-knob"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pull-text">PULL LEVER</div>
+            <div class="spin-counter" id="spinCounter">Spin 0 / 3</div>
+        </div>
+
+        <div class="history-panel">
+            <h3 class="history-title">History</h3>
+            <ul class="history-list" id="historyList">
+                <!-- History items populate here dynamically -->
+            </ul>
+            <button class="btn-clear" onclick="clearHistory()">Clear History</button>
+        </div>
+    </div>
+
+    <!-- External script with logic and randomness -->
+    <script src="script.js"></script>
+</body>
+</html>
