@@ -30,11 +30,13 @@
             </label>
         </div>
 
-        <div class="controls">
-            <label class="radio-label">
-                <input type="color" id="bgColorPicker" value="#000000" onchange="changeBgColor(this.value)"> Background
-            </label>
-            <button class="btn-reset-bg" onclick="resetBgColor()">AMOLED Dark</button>
+        <div class="controls theme-picker">
+            <span class="theme-label">Theme:</span>
+            <button class="color-circle active" style="background-color: #000000;" onclick="changeBgColor('#000000', this)" title="AMOLED Dark"></button>
+            <button class="color-circle" style="background-color: #1a1b26;" onclick="changeBgColor('#1a1b26', this)" title="Midnight Blue"></button>
+            <button class="color-circle" style="background-color: #2e3440;" onclick="changeBgColor('#2e3440', this)" title="Nord"></button>
+            <button class="color-circle" style="background-color: #0f172a;" onclick="changeBgColor('#0f172a', this)" title="Slate"></button>
+            <button class="color-circle" style="background-color: #2c1010;" onclick="changeBgColor('#2c1010', this)" title="Deep Crimson"></button>
         </div>
     </div>
 

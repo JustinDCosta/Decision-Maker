@@ -64,14 +64,17 @@
             resetBestOf3();
         }
 
-        function changeBgColor(color) {
+        function changeBgColor(color, element) {
             document.body.style.background = color;
-        }
-
-        function resetBgColor() {
-            const amoledDark = '#000000';
-            document.getElementById('bgColorPicker').value = amoledDark;
-            changeBgColor(amoledDark);
+            
+            if (element) {
+                // Remove active class from all color circles
+                document.querySelectorAll('.color-circle').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add active class to the clicked circle
+                element.classList.add('active');
+            }
         }
 
         function spinToDecide() {
