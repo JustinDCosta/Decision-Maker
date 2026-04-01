@@ -1,14 +1,14 @@
-# 3D Lucky Decider
+# 3D Decision Maker
 
-Welcome to the **Lucky Decider**, a beautifully designed, 3D interactive decision maker built entirely with HTML, CSS, and JavaScript.
+Welcome to the **Decision Maker**, a beautifully designed, 3D interactive tool built entirely with HTML, CSS, and JavaScript.
 
-If you ever find yourself struggling to make a choice, let the Lucky Decider take the wheel! With a satisfying pull of the virtual slot-machine lever, this web app uses true, cryptographically secure randomness to give you a definitive answer.
+If you ever find yourself struggling to make a choice, let the Decision Maker take the wheel! With a satisfying pull of the custom 3D lever, this web app uses true, cryptographically secure randomness to give you a definitive answer.
 
 ## ✨ Features
 
-- **Modern Casino Vibe**: A sleek dark mode design with neon lights, glowing elements, and a classic scanline screen window.
-- **3D Interactive Lever**: Click the animated slot machine lever on the right to spin the wheel. It pulls down and pops back up with a satisfying click!
-- **Cryptographically Secure Randomness**: We don't rely on basic `Math.random()`. The Lucky Decider uses the `crypto.getRandomValues()` API to ensure the fairness of your results.
+- **Modern Premium Vibe**: A sleek dark mode design with neon lights, glowing elements, glassmorphism, and a classic scanline screen window.
+- **3D Interactive Lever**: Click the fully modeled 3D lever on the right to spin the wheel. It pulls down and pops back up with a satisfying click!
+- **Cryptographically Secure Randomness**: We don't rely on basic `Math.random()`. The Decision Maker uses the `crypto.getRandomValues()` API to ensure the fairness of your results.
 - **Customizable Options**: 
   - Choose between **2 Options** (Yes/No) or **3 Options** (Yes/No/Maybe).
 - **Spin Modes**:
