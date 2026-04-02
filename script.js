@@ -3,6 +3,115 @@
             spins: 0,
             results: { 'YES': 0, 'NO': 0, 'MAYBE': 0 }
         };
+        
+        let audioCtx, isSoundEnabled = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function updateVolume(gainNode, volume, time) {
+            if (isSoundEnabled) {
+                gainNode.gain.setValueAtTime(volume, time);
+            }
+        }
+
+        function toggleSound() {
+            isSoundEnabled = document.getElementById('soundToggle').checked;
+            if (isSoundEnabled) {
+                initAudio();
+                startBGM();
+            } else {
+                stopBGM();
+            }
+        }
+
+        // --- Sound Synthesizer Functions ---
+        function playSound(type) {
+            if (!isSoundEnabled) return;
+            initAudio();
+            
+            const now = audioCtx.currentTime;
+            
+            if (type === 'pull') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(40, now + 0.4);
+                gain.gain.setValueAtTime(0.5, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'tick') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.05);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'win') {
+                function playTone(freq, time, dir, pType, vol) {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.type = pType;
+                    o.frequency.setValueAtTime(freq, time);
+                    g.gain.setValueAtTime(vol, time);
+                    g.gain.exponentialRampToValueAtTime(0.01, time + dir);
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.start(time);
+                    o.stop(time + dir);
+                }
+                playTone(523.25, now, 0.4, 'sine', 0.2); // C5
+                playTone(659.25, now + 0.1, 0.4, 'sine', 0.2); // E5
+                playTone(783.99, now + 0.2, 0.4, 'sine', 0.2); // G5
+                playTone(1046.50, now + 0.3, 0.6, 'sine', 0.3); // C6
+            }
+        }
+
+        let bgmOsc, lfo;
+        function startBGM() {
+            if (bgmOsc) return;
+            const now = audioCtx.currentTime;
+            
+            bgmOsc = audioCtx.createOscillator();
+            bgmOsc.type = 'triangle';
+            bgmOsc.frequency.setValueAtTime(110, now); // Low A Drone
+            
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(200, now);
+            
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.03, now); // subtle background ambient
+            
+            bgmOsc.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            bgmOsc.start(now);
+        }
+
+        function stopBGM() {
+            if (bgmOsc) {
+                bgmOsc.stop();
+                bgmOsc.disconnect();
+                bgmOsc = null;
+            }
+        }
 
         function resetBestOf3() {
             bestOf3State.spins = 0;
@@ -96,6 +205,8 @@
                 resetBestOf3();
             }
             
+            playSound('pull');
+            
             lever.classList.add('disabled');
             lever.classList.add('pulled');
             
@@ -114,12 +225,13 @@
             
             // Rapid shuffling (fake spinning)
             const spinInterval = setInterval(() => {
+                playSound('tick');
                 // Randomly display one from the pool purely for visual effect while spinning
                 const visualIndex = Math.floor(Math.random() * activePool.length);
                 resultDiv.textContent = activePool[visualIndex].text;
-                
+
                 count++;
-                
+
                 // Slow down the spin as it gets closer to target
                 if (count >= targetSpins) {
                     clearInterval(spinInterval);
@@ -142,9 +254,10 @@
                     const finalResult = activePool[finalIndex];
 
                     // Set final result with some flash
+                    playSound('win');
                     resultDiv.className = finalResult.class;
                     resultDiv.textContent = finalResult.text;
-                    
+
                     // Flash effect on win
                     setTimeout(() => {
                         resultDiv.style.transform = 'scale(1.2)';
@@ -175,6 +288,7 @@
                             
                             const winnerObj = activePool.find(p => p.text === winner) || { text: 'TIE', class: '' };
                             setTimeout(() => {
+                                playSound('win');
                                 addToHistory(winnerObj.text, winnerObj.class, true);
                             }, 500);
                         }
