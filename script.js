@@ -22,10 +22,8 @@
         }
 
         function toggleSound() {
-            isSoundEnabled = !isSoundEnabled;
-            const btn = document.getElementById('soundToggleBtn');
-            btn.textContent = isSoundEnabled ? '🔊' : '🔇';
-            
+            isSoundEnabled = document.getElementById('soundToggle').checked;
+            if (isSoundEnabled) {
                 initAudio();
                 startBGM();
             } else {
