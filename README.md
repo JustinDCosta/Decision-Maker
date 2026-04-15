@@ -1,4 +1,4 @@
-# 3D Decision Maker
+# Minimalist Decision Maker
 
 Welcome to the **Decision Maker**, a beautifully designed, 3D interactive tool built entirely with HTML, CSS, and JavaScript.
 
